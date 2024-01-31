@@ -17,17 +17,19 @@ function Analytics({
   async function getData() {
     try {
       const jwToken = localStorage.getItem("jwToken");
+      console.log("authorization");
+      console.log(jwToken);
       const headers = {
         "Content-Type": "application/json",
         authorization: jwToken,
       };
-      const response = await axios.get(`${backendBaseUrl}/quizs`, {
+      const response = await axios.get(`${backendBaseUrl}/api/quizs`, {
         headers: headers,
       });
       setQuizArr(response.data.data);
     } catch (err) {
       console.log(err);
-      return alert("Something went wrong in getting data");
+     
     }
   }
   const handleEditQuiz = async (quizzId) => {

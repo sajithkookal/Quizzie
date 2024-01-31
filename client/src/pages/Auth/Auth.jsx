@@ -3,6 +3,7 @@ import styles from "./auth.module.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { backendBaseUrl } from "../../constants";
+
 function Auth() {
   const [btnClicked, setBtnClicked] = useState(1);
   const [signup, setSignup] = useState(true);
@@ -22,6 +23,7 @@ function Auth() {
 
   const [errors, setErrors] = useState({
     Name: false,
+    email: false,
     password: false,
     confirmPassword: false,
   });
@@ -47,15 +49,6 @@ function Auth() {
     }
   };
 
-  const validName = (Name) => {
-    for (let i = 0; i < Name.length; i++) {
-      if (isNaN(Name[i]) === false) {
-        return false;
-      }
-    }
-    return true;
-  };
-
   const clearFormData = (obj) => {
     const clearedObj = {};
 
@@ -73,6 +66,13 @@ function Auth() {
     }
     return true;
   };
+  // Use a regular expression to validate the email format
+  const validateEmail = (newEmail) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const isValid = emailRegex.test(newEmail);
+    return isValid;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -83,9 +83,14 @@ function Auth() {
       let signupPayload = signupData;
       let syncErrors = errors;
       signupPayload = { name: Name, email, password };
-      if (!validName(signupPayload.name)) {
+      console.log(signupPayload);
+      if (Name.length < 1) {
         syncErrors = { ...syncErrors, Name: true };
         setErrors((prevData) => ({ ...prevData, Name: true }));
+      }
+      if (email.length < 1 || !validateEmail(email)) {
+        syncErrors = { ...syncErrors, email: true };
+        setErrors((prevData) => ({ ...prevData, email: true }));
       }
       if (password !== confirmPassword) {
         syncErrors = { ...syncErrors, confirmPassword: true };
@@ -94,17 +99,20 @@ function Auth() {
       if (password.length < 6) {
         syncErrors = { ...syncErrors, password: true };
         setErrors((prevData) => ({ ...prevData, password: true }));
+        alert("Minimum 6 characters required");
       }
       if (goodToPost(syncErrors)) {
         axios
-          .post(`${backendBaseUrl}/signup`, signupPayload)
+          .post(`${backendBaseUrl}/api/signup`, signupPayload)
           .then((res) => {
-            if (res.data.status === "OK") {
+            if (res.data.success) {
               alert("Account Created Successfully");
               setSignUpData((prevData) => clearFormData(prevData));
               setSignup(false);
               setLogin(true);
               setBtnClicked(() => 2);
+            }else{
+              alert(res.data.error);
             }
           })
           .catch((err) => {
@@ -116,11 +124,16 @@ function Auth() {
       }
     } else if (login === true) {
       axios
-        .post(`${backendBaseUrl}/login`, loginData)
+        .post(`${backendBaseUrl}/api/login`, loginData)
         .then((res) => {
-          setLoginData(() => clearFormData(loginData));
-          localStorage.setItem("jwToken", res.data.jwToken);
+        
+          if (res.data.status === "OK") {
+          setLoginData(() => clearFormData(loginData));     
+          localStorage.setItem("jwToken", res.data.token);
           navigate("/dashboard");
+          }else{
+            alert(res.data.error);
+          }
         })
         .catch((err) => {
           if (err.response.data.status === 404) {
@@ -204,6 +217,10 @@ function Auth() {
                   }}
                 >
                   <input
+                  placeholder={errors.email ? "Invalid Email" : ""}
+                  style={{
+                    border: errors.email ? "1px solid red" : "",
+                  }}
                     value={signup ? signupData.email : loginData.email}
                     required
                     type="email"
@@ -233,8 +250,8 @@ function Auth() {
                       signup && errors.password
                         ? ""
                         : login && signup === false
-                        ? loginData.password
-                        : signupData.password
+                          ? loginData.password
+                          : signupData.password
                     }
                     style={{
                       border: errors.password ? "1px solid red" : "",

@@ -72,7 +72,7 @@ function LiveQuiz() {
     // console.log(ansArr);
     const quizzId = quizId;
     axios
-      .post(`${backendBaseUrl}/${quizzId}/submit`, ansArr)
+      .post(`${backendBaseUrl}/api/${quizzId}/submit`, ansArr)
       .then((res) => {
         if (res.data.status === "OK") {
           // console.log("score", res.data.score);
@@ -101,7 +101,7 @@ function LiveQuiz() {
   const getQuestions = async () => {
     try {
       const quizzId = quizId;
-      const res = await axios.get(`${backendBaseUrl}/quizz/${quizzId}`);
+      const res = await axios.get(`${backendBaseUrl}/api/quizz/${quizzId}`);
       console.log(res.data.data);
       setQArr(res.data.data.questions);
       setQuizType(res.data.data.quizType);

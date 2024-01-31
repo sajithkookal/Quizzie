@@ -10,13 +10,17 @@ function Overview() {
   async function getData() {
     try {
       const jwToken = localStorage.getItem("jwToken");
+      console.log("authorization");
+      console.log(jwToken);
       const headers = {
         "Content-Type": "application/json",
-        authorization: jwToken,
+        "Authorization": jwToken,
       };
-      const response = await axios.get(`${backendBaseUrl}/quizs`, {
+      const response = await axios.get(`${backendBaseUrl}/api/quizs`, {
         headers: headers,
       });
+      console.log("backendBaseUrl")
+      console.log(response.data.data)
       let impressions = 0;
       let questions = 0;
       // eslint-disable-next-line
@@ -29,7 +33,7 @@ function Overview() {
       setQuizArr(response.data.data);
     } catch (err) {
       console.log(err);
-      return alert("Something went wrong");
+      
     }
   }
   useEffect(() => {

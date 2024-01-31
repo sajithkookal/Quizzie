@@ -14,7 +14,7 @@ export default function DeleteQuiz({ handleDeleteQuiz, quizId }) {
       authorization: jwToken,
     };
     axios
-      .delete(`${backendBaseUrl}/delete-quizz/${quizzId}`, { headers: headers })
+      .delete(`${backendBaseUrl}/api/delete-quizz/${quizzId}`, { headers: headers })
       .then((res) => {
         if (res.data.status === "OK") {
           handleDeleteQuiz(false);

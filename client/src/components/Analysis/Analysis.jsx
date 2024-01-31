@@ -12,7 +12,7 @@ function Analysis({ quizId }) {
         authorization: jwToken,
       };
       const quizzId = quizId;
-      const response = await axios.get(`${backendBaseUrl}/fetch/${quizzId}`, {
+      const response = await axios.get(`${backendBaseUrl}/api/fetch/${quizzId}`, {
         headers: headers,
       });
       console.log(response);

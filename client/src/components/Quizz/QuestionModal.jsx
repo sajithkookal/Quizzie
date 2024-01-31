@@ -41,7 +41,7 @@ function QuestionModal({
         authorization: jwToken,
       };
       axios
-        .get(`${backendBaseUrl}/fetch/${quizzId}`, { headers: headers })
+        .get(`${backendBaseUrl}/api/fetch/${quizzId}`, { headers: headers })
         .then((res) => {
           // setQArr(res.data.quizData.quesions);
           setQArr(res.data.quizData[0].questions);
@@ -75,7 +75,7 @@ function QuestionModal({
         qArr,
       };
       axios
-        .put(`${backendBaseUrl}/update-quizz/${quizzId}`, payload, {
+        .put(`${backendBaseUrl}/api/update-quizz/${quizzId}`, payload, {
           headers: headers,
         })
         .then((res) => {
@@ -123,7 +123,7 @@ function QuestionModal({
       authorization: jwToken,
     };
     axios
-      .post(`${backendBaseUrl}/create-quizz`, quizzData, { headers: headers })
+      .post(`${backendBaseUrl}/api/create-quizz`, quizzData, { headers: headers })
       .then((res) => {
         if (res.data.status === "OK") {
           // console.log(res.data.quizId);

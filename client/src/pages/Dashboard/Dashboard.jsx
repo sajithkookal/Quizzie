@@ -1,7 +1,5 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { backendBaseUrl } from "../../constants";
-import { Navigate, Outlet, useNavigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import Navbar from "../../components/NavBar/Navbar";
 import Overview from "../../components/Overview/Overview";
 import Analytics from "../../components/Analytics/Analytics";
@@ -12,7 +10,6 @@ import Success from "../../components/Success/Success";
 import DeleteQuiz from "../../components/Delete/DeleteQuiz";
 import Analysis from "../../components/Analysis/Analysis";
 function Dashboard() {
-  const navigate = useNavigate();
   const [overview, setOverview] = useState(true); // modified for analysis
   const [analytics, setAnalytics] = useState(false); // set false after design
   const [analysis, setAnalysis] = useState(true);
@@ -97,31 +94,12 @@ function Dashboard() {
   };
 
   useEffect(() => {
-    verify();
-    // eslint-disable-next-line
+    
   }, []);
 
   const jwToken = localStorage.getItem("jwToken");
   if (!jwToken) {
     return <Navigate to="/" />;
-  }
-
-  async function verify() {
-    try {
-      const jwToken = localStorage.getItem("jwToken");
-      if (!jwToken) {
-        return <Navigate to="/" />;
-      }
-      const headers = {
-        "Content-Type": "application/json",
-        authorization: jwToken,
-      };
-
-      await axios.post(`${backendBaseUrl}/verify`, {}, { headers: headers });
-    } catch (err) {
-      alert("Session timed out");
-      return navigate("/");
-    }
   }
 
   return (

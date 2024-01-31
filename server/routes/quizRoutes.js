@@ -1,6 +1,5 @@
 const express = require("express");
 const isLoggedIn = require("../middleware/requireAuth");
-const User = require("../models/User");
 const Quiz = require("../models/Quiz");
 const router = express.Router();
 
@@ -123,8 +122,13 @@ router.put("/update-quizz/:quizzId", isLoggedIn, async (req, res, next) => {
 // =========================== All quizs =================================
 router.get("/quizs", isLoggedIn, async (req, res, next) => {
   try {
-    const adminId = req.adminId;
-    const quizs = await Quizz.find({ adminId: adminId });
+    console.log("reqxxxx");
+     console.log(req);
+    const userId = req.userId;
+    const quizs = await Quiz.find({ userId: userId });
+    if(!quizs){
+      return;
+    }
     const options = {
       day: "2-digit",
       month: "short",
