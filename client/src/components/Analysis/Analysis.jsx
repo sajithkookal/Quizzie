@@ -9,10 +9,10 @@ function Analysis({ quizId }) {
       const jwToken = localStorage.getItem("jwToken");
       const headers = {
         "Content-Type": "application/json",
-        authorization: jwToken,
+        "Authorization": jwToken,
       };
-      const quizzId = quizId;
-      const response = await axios.get(`${backendBaseUrl}/api/fetch/${quizzId}`, {
+      const quizId = quizId;
+      const response = await axios.get(`${backendBaseUrl}/api/fetch/${quizId}`, {
         headers: headers,
       });
       console.log(response);

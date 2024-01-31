@@ -29,7 +29,7 @@ function QuestionModal({
   const [qArr, setQArr] = useState([
     { question: "", optionType: "", options: initailOptArr },
   ]);
-  const quizzId = quizId;
+  const quizId = quizId;
   useEffect(() => {
     if (edit) {
       const jwToken = localStorage.getItem("jwToken");
@@ -38,17 +38,16 @@ function QuestionModal({
       }
       const headers = {
         "Content-Type": "application/json",
-        authorization: jwToken,
+        "Authorization": jwToken,
       };
       axios
-        .get(`${backendBaseUrl}/api/fetch/${quizzId}`, { headers: headers })
+        .get(`${backendBaseUrl}/api/fetch/${quizId}`, { headers: headers })
         .then((res) => {
           // setQArr(res.data.quizData.quesions);
           setQArr(res.data.quizData[0].questions);
           setTimer(res.data.quizData[0].timer);
-          setQuizTypeEdit(res.data.quizData[0].quizzType); //
-          // setQuizType(res.data.quizData.quizzType); //
-          // quizType = res.data.quizData.quizzType;
+          setQuizTypeEdit(res.data.quizData[0].quizType); //
+         
         })
         .catch((err) => {
           console.log(err);
@@ -60,14 +59,14 @@ function QuestionModal({
   const [correctAnsIndex, setCorrectAnsIndex] = useState(null);
   const handleUpdateQuiz = async () => {
     try {
-      const quizzId = quizId;
+      const quizId = quizId;
       const jwToken = localStorage.getItem("jwToken");
       if (!jwToken) {
         return alert("You are not LoggedIn");
       }
       const headers = {
         "Content-Type": "application/json",
-        authorization: jwToken,
+        "Authorization": jwToken,
       };
       // const payload = {question}
       const payload = {
@@ -75,7 +74,7 @@ function QuestionModal({
         qArr,
       };
       axios
-        .put(`${backendBaseUrl}/api/update-quizz/${quizzId}`, payload, {
+        .put(`${backendBaseUrl}/api/update-quizz/${quizId}`, payload, {
           headers: headers,
         })
         .then((res) => {
@@ -94,15 +93,15 @@ function QuestionModal({
     }
   };
   const handleCreateQuiz = async () => {
-    const quizzData = {
-      quizzName: quizName,
-      quizzType: quizType,
+    const quizData = {
+      quizName: quizName,
+      quizType: quizType,
       questions: qArr,
       timer: timer,
     };
-    if (quizzData.quizzType === "qna") {
+    if (quizData.quizType === "qna") {
       let ans = 0;
-      quizzData.questions.forEach((que) => {
+      quizData.questions.forEach((que) => {
         const found = que.options.findIndex(
           (op) => op.isAnswer === true && (op.value !== "" || op.imgUrl !== "")
         );
@@ -110,7 +109,7 @@ function QuestionModal({
           ans++;
         }
       });
-      if (!(ans === quizzData.questions.length))
+      if (!(ans === quizData.questions.length))
         return alert("All feilds are required in ans");
     } else {
     }
@@ -120,10 +119,10 @@ function QuestionModal({
     }
     const headers = {
       "Content-type": "application/json",
-      authorization: jwToken,
+      "Authorization": jwToken,
     };
     axios
-      .post(`${backendBaseUrl}/api/create-quizz`, quizzData, { headers: headers })
+      .post(`${backendBaseUrl}/api/create-quizz`, quizData, { headers: headers })
       .then((res) => {
         if (res.data.status === "OK") {
           // console.log(res.data.quizId);

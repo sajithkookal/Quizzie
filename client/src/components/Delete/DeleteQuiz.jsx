@@ -4,17 +4,17 @@ import axios from "axios";
 import { backendBaseUrl } from "../../constants";
 export default function DeleteQuiz({ handleDeleteQuiz, quizId }) {
   const handleDelete = () => {
-    // console.log(quizId);
-    const quizzId = quizId;
-    console.log(quizzId);
+     console.log(quizId);
+    const quizId = quizId;
+    
     const jwToken = localStorage.getItem("jwToken");
     if (!jwToken) return alert("Your are not logged in");
     const headers = {
       "Content-Type": "application/json",
-      authorization: jwToken,
+      "Authorization": jwToken,
     };
     axios
-      .delete(`${backendBaseUrl}/api/delete-quizz/${quizzId}`, { headers: headers })
+      .delete(`${backendBaseUrl}/api/delete-quizz/${quizId}`, { headers: headers })
       .then((res) => {
         if (res.data.status === "OK") {
           handleDeleteQuiz(false);

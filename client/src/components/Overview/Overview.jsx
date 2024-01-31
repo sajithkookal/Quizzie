@@ -59,7 +59,7 @@ function Overview() {
             >
               {quizArr.length}
             </span>{" "}
-            Quizz <br /> Created
+            Quiz <br /> Created
           </div>
           <div
             style={{
@@ -118,7 +118,7 @@ function Overview() {
             {quizArr.map((el, index) => (
               <div key={index} className={styles.quizBanner}>
                 <div className={styles.bannerTop}>
-                  <div className={styles.quizName}>{el.quizzName}</div>
+                  <div className={styles.quizName}>{el.quizName}</div>
                   <div className={styles.views}>
                     {el.impressions} <img alt="eye" src={eye} />
                   </div>

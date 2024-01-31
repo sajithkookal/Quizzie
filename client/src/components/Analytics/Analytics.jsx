@@ -21,7 +21,7 @@ function Analytics({
       console.log(jwToken);
       const headers = {
         "Content-Type": "application/json",
-        authorization: jwToken,
+        "Authorization": jwToken,
       };
       const response = await axios.get(`${backendBaseUrl}/api/quizs`, {
         headers: headers,
@@ -32,18 +32,18 @@ function Analytics({
      
     }
   }
-  const handleEditQuiz = async (quizzId) => {
+  const handleEditQuiz = async (quizId) => {
     try {
       handleEdit(true);
-      handleQuizId(quizzId); // using pre defined state;
+      handleQuizId(quizId); // using pre defined state;
     } catch (err) {
       console.log(err);
       alert("something went wrong in editing");
     }
   };
-  const handleShare = async (quizzId) => {
+  const handleShare = async (quizId) => {
     try {
-      await navigator.clipboard.writeText(`${frontEndBaseUrl}/quiz/${quizzId}`);
+      await navigator.clipboard.writeText(`${frontEndBaseUrl}/quiz/${quizId}`);
       return toast("Link copied");
     } catch (err) {
       console.log(err);
@@ -73,12 +73,12 @@ function Analytics({
               {quizArr.map((quiz, index) => (
                 <tr key={index}>
                   <td>{index + 1}</td>
-                  <td>{quiz.quizzName}</td>
+                  <td>{quiz.quizName}</td>
                   <td> {quiz.createdOn} </td>
                   <td> {quiz.impressions} </td>
                   <td>
                     <img
-                      onClick={() => handleEditQuiz(quiz.quizzId)}
+                      onClick={() => handleEditQuiz(quiz.quizId)}
                       style={{ cursor: "pointer", marginRight: "5px" }}
                       src={edit}
                       alt="edit"
@@ -86,14 +86,14 @@ function Analytics({
                     <img
                       onClick={() => {
                         handleDeleteQuiz(true);
-                        handleQuizId(quiz.quizzId);
+                        handleQuizId(quiz.quizId);
                       }}
                       style={{ cursor: "pointer", marginRight: "5px" }}
                       src={del}
                       alt="delete"
                     />
                     <img
-                      onClick={() => handleShare(quiz.quizzId)}
+                      onClick={() => handleShare(quiz.quizId)}
                       style={{ cursor: "pointer", marginRight: "5px" }}
                       src={share}
                       alt="share"
@@ -105,7 +105,7 @@ function Analytics({
                     <span
                       onClick={() => {
                         handleAnalysis(true);
-                        handleQuizId(quiz.quizzId);
+                        handleQuizId(quiz.quizId);
                       }}
                     >
                       Question Wise Analysis

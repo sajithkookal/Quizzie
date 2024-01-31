@@ -32,8 +32,8 @@ function Dashboard() {
       setQuestionsModal(true);
     }
   };
-  const handleQuizId = (quizzId) => {
-    setQuizId(quizzId);
+  const handleQuizId = (quizId) => {
+    setQuizId(quizId);
   };
   const handleDeleteQuiz = (state) => {
     setDeleteQuiz(state);

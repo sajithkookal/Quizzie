@@ -6,13 +6,13 @@ const router = express.Router();
 // ====================== Create Quizz==============================
 router.post("/create-quizz", isLoggedIn, async (req, res, next) => {
   try {
-    const adminId = req.adminId;
-    const quizzData = req.body;
-    quizzData.adminId = adminId;
-    const createdQuiz = await Quizz.create(quizzData);
+    const userId = req.userId;
+    const quizData = req.body;
+    quizData.userId = userId;
+    const createdQuiz = await Quiz.create(quizData);
     res.status(200).json({
       status: "OK",
-      message: "Quizz Created Succesfully",
+      message: "Quiz Created Succesfully",
       quizId: createdQuiz._id,
     });
   } catch (err) {
@@ -23,24 +23,24 @@ router.post("/create-quizz", isLoggedIn, async (req, res, next) => {
 // ===================================================================
 
 // ========================= Delete Quizz ============================
-router.delete("/delete-quizz/:quizzId", isLoggedIn, async (req, res, next) => {
+router.delete("/delete-quizz/:quizId", isLoggedIn, async (req, res, next) => {
   try {
-    const radminId = req.adminId;
-    const { quizzId } = req.params;
-    // console.log("quizzId", quizzId);
+    const radminId = req.userId;
+    const { quizId } = req.params;
+ 
     const query = {
       $and: [
-        { adminId: { $eq: radminId } },
-        { _id: { $eq: quizzId.toString() } },
+        { userId: { $eq: radminId } },
+        { _id: { $eq: quizId.toString() } },
       ],
     };
-    const deletedQuizz = await Quizz.findOneAndDelete(query);
-    if (!deletedQuizz) {
-      return next(errorHandler(404, "Quizz not found"));
+    const deletedQuiz = await Quiz.findOneAndDelete(query);
+    if (!deletedQuiz) {
+      return next(errorHandler(404, "Quiz not found"));
     }
     res.status(200).json({
       status: "OK",
-      message: "Quizz Deleted",
+      message: "Quiz Deleted",
     });
   } catch (err) {
     console.log(err);
@@ -50,18 +50,18 @@ router.delete("/delete-quizz/:quizzId", isLoggedIn, async (req, res, next) => {
 // ===================================================================
 
 // ====================== View Quizz =================================
-router.get("/quizz/:quizzId", async (req, res, next) => {
+router.get("/quizz/:quizId", async (req, res, next) => {
   try {
-    const { quizzId } = req.params;
+    const { quizId } = req.params;
 
-    const quizz = await Quizz.findOne({ _id: quizzId });
+    const quiz = await Quiz.findOne({ _id: quizId });
 
-    if (!quizz) {
-      return next(errorHandler(404, "quizz Not Found"));
+    if (!quiz) {
+      return next(errorHandler(404, "quiz Not Found"));
     }
-    quizz.impressions = quizz.impressions + 1;
-    await quizz.save();
-    const questions = quizz.questions;
+    quiz.impressions = quiz.impressions + 1;
+    await quiz.save();
+    const questions = quiz.questions;
     const modifiedQuestions = [];
     questions.forEach((question) => {
       const modifiedOptions = [];
@@ -74,9 +74,9 @@ router.get("/quizz/:quizzId", async (req, res, next) => {
       modifiedQuestions.push(restQues);
     });
     const data = {
-      quizName: quizz.quizzName,
-      timer: quizz.timer,
-      quizType: quizz.quizzType,
+      quizName: quiz.quizName,
+      timer: quiz.timer,
+      quizType: quiz.quizType,
       questions: modifiedQuestions,
     };
     // console.log(modifiedQuestions);
@@ -91,28 +91,26 @@ router.get("/quizz/:quizzId", async (req, res, next) => {
 });
 // ==================================================================
 // ========================== Update Quizz ==========================
-router.put("/update-quizz/:quizzId", isLoggedIn, async (req, res, next) => {
+router.put("/update-quizz/:quizId", isLoggedIn, async (req, res, next) => {
   try {
-    const { quizzId } = req.params;
+    const { quizId } = req.params;
     const payload = req.body;
-    const radminId = req.adminId;
+    const radminId = req.userId;
     const query = {
-      $and: [{ adminId: { $eq: radminId } }, { _id: { $eq: quizzId } }],
+      $and: [{ userId: { $eq: radminId } }, { _id: { $eq: quizId } }],
     };
-    // const updatedDoc = await Quizz.findOneAndUpdate(query, modifiedQuizz, {
-    //   new: true,
-    // });
-    const quiz = await Quizz.findOne(query);
+  
+    const quiz = await Quiz.findOne(query);
     if (!quiz) {
-      return next(errorHandler(404, "Quizz Not Found"));
+      return next(errorHandler(404, "Quiz Not Found"));
     }
     quiz.questions = payload.qArr;
     quiz.timer = payload.timer;
     await quiz.save();
     return res.status(200).json({
       status: "OK",
-      message: "Quizz Updated Succssfully",
-      quizId: quizzId,
+      message: "Quiz Updated Succssfully",
+      quizId: quizId,
     });
   } catch (err) {
     console.log(err);
@@ -122,8 +120,7 @@ router.put("/update-quizz/:quizzId", isLoggedIn, async (req, res, next) => {
 // =========================== All quizs =================================
 router.get("/quizs", isLoggedIn, async (req, res, next) => {
   try {
-    console.log("reqxxxx");
-     console.log(req);
+    
     const userId = req.userId;
     const quizs = await Quiz.find({ userId: userId });
     if(!quizs){
@@ -135,11 +132,11 @@ router.get("/quizs", isLoggedIn, async (req, res, next) => {
       year: "numeric",
     };
     const data = quizs.map((quiz) => ({
-      quizzName: quiz.quizzName,
+      quizName: quiz.quizName,
       impressions: quiz.impressions,
       createdOn: quiz.createdAt.toLocaleDateString("en-US", options),
       questions: quiz.questions.length,
-      quizzId: quiz._id,
+      quizId: quiz._id,
     }));
 
     res.status(200).json({
@@ -153,40 +150,30 @@ router.get("/quizs", isLoggedIn, async (req, res, next) => {
 });
 // ===================================================================
 // =======================Fetch for edit =============================
-router.get("/fetch/:quizzId", isLoggedIn, async (req, res, next) => {
+router.get("/fetch/:quizId", isLoggedIn, async (req, res, next) => {
   try {
     // console.log("fetch exec");
-    const radminId = req.adminId;
-    const { quizzId } = req.params;
+    const radminId = req.userId;
+    const { quizId } = req.params;
     const query = {
       $and: [
-        { adminId: { $eq: radminId } },
-        { _id: { $eq: quizzId.toString() } },
+        { userId: { $eq: radminId } },
+        { _id: { $eq: quizId.toString() } },
       ],
     };
-    const quizzData = await Quizz.find(query);
-    if (!quizzData) {
+    const quizData = await Quiz.find(query);
+    if (!quizData) {
       return next(errorHandler(404, "Quiz Not Found"));
     }
-    // console.log(quizzData[0].questions);
+  
     res.status(200).json({
       status: "OK",
-      quizData: quizzData,
+      quizData: quizData,
     });
   } catch (err) {
     console.log(err);
     next(err);
   }
 });
-// =======================Analysis=====================================
-// router.get("/analysis/:quizzId", isLoggedIn, async (req, res, next) => {
-//   try {
 
-//   } catch (err) {
-//     console.log(err);
-//     next(err);
-//   }
-// });
-
-//
 module.exports = router;
