@@ -1,0 +1,68 @@
+* {
+  padding: 0px;
+  margin: 0px;
+  box-sizing: border-box;
+}
+@font-face {
+  font-family: Poppins;
+  src: url("../../assets/Poppins/Poppins-Light.ttf");
+}
+.container {
+  /* border: 1px solid red; */
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.title {
+  /* border: 1px solid red; */
+  flex: 20%;
+  color: #5076ff;
+  font-family: Poppins;
+  font-size: 4rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  text-align: center;
+  padding-top: 1.5rem;
+}
+.data {
+  /* border: 1px solid red; */
+  flex: 80%;
+}
+.info {
+  /* border: 1px solid red; */
+  width: 80%;
+  margin: auto;
+  height: 85%;
+  margin-top: 2%;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+  overflow-y: auto;
+}
+table::-webkit-scrollbar {
+  display: none;
+}
+th {
+  padding: 10px 15px 10px 15px;
+  color: white;
+  font-family: Poppins;
+  background: #5076ff;
+}
+
+td {
+  padding: 5px 15px 5px 15px;
+  color: #000;
+  text-align: center;
+  font-family: Poppins;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 40px; /* 307.692% */
+}
+tr:nth-child(odd) {
+  background-color: #b3c4ff;
+  border-radius: 10px 10px 10px 10px;
+}

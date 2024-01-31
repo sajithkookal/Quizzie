@@ -1,0 +1,75 @@
+* {
+  padding: 0px;
+  margin: 0px;
+  box-sizing: border-box;
+}
+.container {
+  height: 99.99%;
+}
+@font-face {
+  font-family: Jomhuria;
+  src: url("../../assets/Jomhuria/Jomhuria-Regular.ttf");
+}
+.navbar {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+  /* border: 1px solid red; */
+}
+.title {
+  text-align: center;
+  margin-top: 2vh;
+  color: #474444;
+  font-family: Jomhuria;
+  font-size: 5rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  /* border: 1px solid red; */
+}
+.menu {
+  text-align: center;
+  height: 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  /* border: 1px solid red; */
+}
+.menu div button {
+  color: #474444;
+  font-family: Poppins;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  width: 90%;
+  padding: 0.5rem;
+  border-radius: 10px;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+.logout {
+  text-align: center;
+  /* border: 1px solid red; */
+  height: 10%;
+  /* padding: 0.7rem; */
+}
+.logout button {
+  color: #474444;
+  font-family: Poppins;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  text-transform: uppercase;
+  padding: 0.8rem;
+  margin-bottom: 2vh;
+  background: none;
+  width: 50%;
+  border: none;
+  border-top: 1px solid black;
+  cursor: pointer;
+  letter-spacing: 1px;
+}

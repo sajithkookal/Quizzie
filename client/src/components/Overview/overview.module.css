@@ -1,0 +1,90 @@
+* {
+  padding: 0px;
+  margin: 0px;
+  box-sizing: border-box;
+}
+@font-face {
+  font-family: Poppins;
+  src: url("../../assets//Poppins/Poppins-Light.ttf");
+}
+.container {
+  width: 100%;
+  margin: auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  /* border: 1px solid red; */
+}
+.data {
+  flex: 30%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  /* border: 1px solid red; */
+}
+.data div {
+  width: 22%;
+  height: 60%;
+  text-align: center;
+  padding-top: 8px;
+  background-color: white;
+  border-radius: 10px;
+  /* border: 1px solid red; */
+}
+.trending {
+  flex: 70%;
+}
+.quizContainer {
+  /* border: 1px solid red; */
+  width: 85%;
+  height: 85%;
+  margin: auto;
+  /* margin-top: 10px; */
+  overflow-y: scroll;
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 50px;
+  row-gap: 20px;
+}
+.quizContainer::-webkit-scrollbar {
+  display: none;
+}
+.quizBanner {
+  width: 190px;
+  height: 70px;
+  padding: 8px;
+  background-color: white;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.bannerTop {
+  display: flex;
+  justify-content: space-between;
+}
+.quizName {
+  color: #474444;
+  font-family: Poppins;
+  font-size: 23px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+.views {
+  color: #ff5d01;
+  font-family: Poppins;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+.bannerBottom {
+  color: #60b84b;
+  font-family: Poppins;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}

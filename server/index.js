@@ -4,6 +4,9 @@ const bcrypt = require("bcrypt")
 const bodyParser = require("body-parser")
 
 const authRoutes = require("./routes/authRoutes");
+const quizRoutes = require("./routes/quizRoutes")
+const submitQuizRoute = require("./routes/submitQuizRoutes")
+
 require("dotenv").config();
 const cors = require("cors");
 
@@ -18,10 +21,10 @@ app.get("/", (req, res) => {
     });
 });
 
-// Routes
+// Routes Head
 app.use("/api", authRoutes);
-app.use("/", quizzRoutes);
-app.use("/", liveQuizRoutes);
+app.use("/api", quizRoutes);
+app.use("/api", submitQuizRoute);
 
 //Error handler middleware
 app.use((err, req, res) => {
