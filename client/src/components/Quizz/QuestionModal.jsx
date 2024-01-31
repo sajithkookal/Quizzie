@@ -12,7 +12,7 @@ function QuestionModal({
   handleSuccessModal,
   handleQuizLink,
   edit,
-  quizId,
+  quizzId,
   handleQuizType,
 }) {
   const [optionType, setOptionType] = useState("");
@@ -29,7 +29,7 @@ function QuestionModal({
   const [qArr, setQArr] = useState([
     { question: "", optionType: "", options: initailOptArr },
   ]);
-  const quizId = quizId;
+  const quizId = quizzId;
   useEffect(() => {
     if (edit) {
       const jwToken = localStorage.getItem("jwToken");
@@ -59,7 +59,7 @@ function QuestionModal({
   const [correctAnsIndex, setCorrectAnsIndex] = useState(null);
   const handleUpdateQuiz = async () => {
     try {
-      const quizId = quizId;
+      const quizId = quizzId;
       const jwToken = localStorage.getItem("jwToken");
       if (!jwToken) {
         return alert("You are not LoggedIn");
@@ -81,7 +81,7 @@ function QuestionModal({
           const quizId = res.data.quizId;
           handleFinalCancel();
           handleSuccessModal(true);
-          handleQuizLink(`${frontEndBaseUrl}/quiz/${quizId}`);
+          handleQuizLink(`${frontEndBaseUrl}/api/quizz/${quizId}`);
         })
         .catch((err) => {
           console.log(err);
@@ -129,7 +129,7 @@ function QuestionModal({
           const quizId = res.data.quizId;
           handleFinalCancel();
           handleSuccessModal(true);
-          handleQuizLink(`${frontEndBaseUrl}/quiz/${quizId}`);
+          handleQuizLink(`${frontEndBaseUrl}/api/quizz/${quizId}`);
         }
       })
       .catch((err) => {

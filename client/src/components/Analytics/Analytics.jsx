@@ -43,7 +43,7 @@ function Analytics({
   };
   const handleShare = async (quizId) => {
     try {
-      await navigator.clipboard.writeText(`${frontEndBaseUrl}/quiz/${quizId}`);
+      await navigator.clipboard.writeText(`${frontEndBaseUrl}/api/quizz/${quizId}`);
       return toast("Link copied");
     } catch (err) {
       console.log(err);
