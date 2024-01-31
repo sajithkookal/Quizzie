@@ -10,8 +10,8 @@ import Success from "../../components/Success/Success";
 import DeleteQuiz from "../../components/Delete/DeleteQuiz";
 import Analysis from "../../components/Analysis/Analysis";
 function Dashboard() {
-  const [overview, setOverview] = useState(true); // modified for analysis
-  const [analytics, setAnalytics] = useState(false); // set false after design
+  const [overview, setOverview] = useState(true); 
+  const [analytics, setAnalytics] = useState(false);
   const [analysis, setAnalysis] = useState(true);
   const [createQuizModal, setCreateQuizModal] = useState(false);
   const [quizTypeModal, setQuizTypeModal] = useState(false);
@@ -41,12 +41,12 @@ function Dashboard() {
   const handleQuizLink = (link) => {
     setQuizLink(link);
   };
-  // ============= Updates fro succes modal ============
+  // Updates fro succes modal
   const handleSuccessModal = (state) => {
     setSuccessModal(state);
   };
-  // ===================================================
-  // ========== updates from quizType.jsx ============
+  
+  //  updates from quizType.jsx
   const [quizType, setQuizType] = useState("");
   const [quizName, setQuizName] = useState("");
   const handleCancel = () => {
@@ -69,8 +69,8 @@ function Dashboard() {
   const handleQuizName = (Name) => {
     setQuizName(Name);
   };
-  // ========================================
-  //  ===========Updates form Question modal =================
+ 
+  // Updates form Question modal 
   const handleFinalCancel = () => {
     setCreateQuizModal(false);
     setQuizTypeModal(false);
@@ -79,7 +79,7 @@ function Dashboard() {
     setQuizName("");
     setQuizType("");
   };
-  // =========================================================
+
   const handleNav = (btnId) => {
     if (btnId === 1) {
       setOverview(true);
@@ -144,10 +144,10 @@ function Dashboard() {
                 margin: "auto",
                 height: "90%",
                 marginTop: "3%",
-                // border: "1px solid red",
+               
               }}
             >
-              <Analysis quizId={quizId} />
+              <Analysis quizzId={quizId} />
             </div>
           ) : (
             ""
@@ -175,7 +175,7 @@ function Dashboard() {
                 handleFinalCancel={handleFinalCancel}
                 handleSuccessModal={handleSuccessModal}
                 handleQuizLink={handleQuizLink}
-                quizId={quizId}
+                quizzId={quizId}
                 handleQuizType={handleQuizType} //
               />
             ) : (
@@ -190,7 +190,7 @@ function Dashboard() {
               ""
             )}
             {deleteQuiz ? (
-              <DeleteQuiz quizId={quizId} handleDeleteQuiz={handleDeleteQuiz} />
+              <DeleteQuiz quizzId={quizId} handleDeleteQuiz={handleDeleteQuiz} />
             ) : (
               ""
             )}

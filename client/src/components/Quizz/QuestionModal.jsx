@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import styles from "./questionmodal.module.css";
 import add from "../../assets/add.png";
 import del from "../../assets/del.png";
-import { backendBaseUrl } from "../../constants";
-import { frontEndBaseUrl } from "../../constants";
+import { backendBaseUrl } from "../../config";
+import { frontEndBaseUrl } from "../../config";
 import axios from "axios";
 function QuestionModal({
   handleFinalCancel,
@@ -81,7 +81,7 @@ function QuestionModal({
           const quizId = res.data.quizId;
           handleFinalCancel();
           handleSuccessModal(true);
-          handleQuizLink(`${frontEndBaseUrl}/api/quizz/${quizId}`);
+          handleQuizLink(`${frontEndBaseUrl}/quiz/${quizId}`);
         })
         .catch((err) => {
           console.log(err);
@@ -129,7 +129,7 @@ function QuestionModal({
           const quizId = res.data.quizId;
           handleFinalCancel();
           handleSuccessModal(true);
-          handleQuizLink(`${frontEndBaseUrl}/api/quizz/${quizId}`);
+          handleQuizLink(`${frontEndBaseUrl}/quiz/${quizId}`);
         }
       })
       .catch((err) => {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./overview.module.css";
 import eye from "../../assets/eye.png";
-import { backendBaseUrl } from "../../constants";
+import { backendBaseUrl } from "../../config";
 import axios from "axios";
 function Overview() {
   const [quizArr, setQuizArr] = useState([]);

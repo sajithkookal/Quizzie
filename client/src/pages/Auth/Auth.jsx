@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import styles from "./auth.module.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { backendBaseUrl } from "../../constants";
+import { backendBaseUrl } from "../../config";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Auth() {
   const [btnClicked, setBtnClicked] = useState(1);
@@ -99,14 +101,16 @@ function Auth() {
       if (password.length < 6) {
         syncErrors = { ...syncErrors, password: true };
         setErrors((prevData) => ({ ...prevData, password: true }));
-        alert("Minimum 6 characters required");
+        toast("Minimum 6 characters required");
       }
       if (goodToPost(syncErrors)) {
+        try{
         axios
           .post(`${backendBaseUrl}/api/signup`, signupPayload)
           .then((res) => {
             if (res.data.success) {
-              alert("Account Created Successfully");
+              toast("Account Created Successfully");
+             
               setSignUpData((prevData) => clearFormData(prevData));
               setSignup(false);
               setLogin(true);
@@ -121,8 +125,12 @@ function Auth() {
               return alert("User already Exists/ something went wrong");
             }
           });
+        }catch (error){
+          console.log(error);
+        }
       }
     } else if (login === true) {
+       try{     
       axios
         .post(`${backendBaseUrl}/api/login`, loginData)
         .then((res) => {
@@ -144,11 +152,15 @@ function Auth() {
             return alert("Something went wrong");
           }
         });
+      }catch (error){
+        console.log(error);
+      }
     }
   };
   return (
     <>
       <div className={styles.container}>
+      <ToastContainer />
         <div className={styles.title}>QUIZZIE</div>
         <div className={styles.buttonsContainer}>
           <button
@@ -266,7 +278,7 @@ function Auth() {
               <div>
                 <div
                   style={{
-                    flex: "30%",
+                    flex: "31%",
                     justifyContent: "flex-end",
                     display: signup ? "block" : "none",
                   }}
@@ -300,7 +312,9 @@ function Auth() {
                 </div>
               </div>
               <div className={styles.submitBtnContainer}>
-                <button type="submit">{signup ? "Sign-Up" : "Log In"}</button>
+                <button type="submit">
+                  {signup ? "Sign-Up" : "Log In"}            
+                </button>
               </div>
             </div>
           </form>

@@ -1,11 +1,11 @@
 import React from "react";
 import styles from "./deletequiz.module.css";
 import axios from "axios";
-import { backendBaseUrl } from "../../constants";
-export default function DeleteQuiz({ handleDeleteQuiz, quizId }) {
+import { backendBaseUrl } from "../../config";
+export default function DeleteQuiz({ handleDeleteQuiz, quizzId }) {
   const handleDelete = () => {
-     console.log(quizId);
-    const quizId = quizId;
+   
+    const quizId = quizzId;
     
     const jwToken = localStorage.getItem("jwToken");
     if (!jwToken) return alert("Your are not logged in");

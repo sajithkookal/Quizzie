@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styles from "./analysis.module.css";
 import axios from "axios";
-import { backendBaseUrl } from "../../constants";
-function Analysis({ quizId }) {
+import { backendBaseUrl } from "../../config";
+function Analysis({ quizzId }) {
   const [quiz, setQuiz] = useState(null);
   const getData = async () => {
     try {
@@ -11,23 +11,23 @@ function Analysis({ quizId }) {
         "Content-Type": "application/json",
         "Authorization": jwToken,
       };
-      const quizId = quizId;
+      const quizId = quizzId;
       const response = await axios.get(`${backendBaseUrl}/api/fetch/${quizId}`, {
         headers: headers,
       });
-      console.log(response);
+      
       if (response.data.status === "OK") {
         setQuiz(() => response.data.quizData[0]);
       }
-      //   setQuizData(response.data.quizData[0]);
+    
     } catch (err) {
       console.log(err);
-      return alert("Something went wrong in getting data");
+    //  return alert("Something went wrong in getting data");
     }
   };
   useEffect(() => {
     getData();
-    // eslint-disable-next-line
+    
   }, []);
 
   return (
@@ -53,8 +53,8 @@ function Analysis({ quizId }) {
         </div>
         <div className={styles.analyticsContainer}>
           {quiz
-            ? quiz.questions.map((ques) => (
-                <div className={styles.qContainer}>
+            ? quiz.questions.map((ques,index) => (
+                <div key={index} className={styles.qContainer}>
                   <div className={styles.question}>{ques.question}</div>
                   {ques && quiz.quizzType === "qna" ? (
                     <div className={styles.stats}>
@@ -120,7 +120,7 @@ function Analysis({ quizId }) {
                     <div className={styles.pollStats}>
                       {ques
                         ? ques.options.map((op, index) => (
-                            <div>
+                            <div key={index}>
                               <span
                                 style={{
                                   fontSize: "2.5rem",
@@ -128,16 +128,14 @@ function Analysis({ quizId }) {
                                 }}
                               >
                                 {op.votes}
-                              </span>{" "}
-                              {/* <br />{" "} */}
+                              </span>{" "}                           
                               <span
                                 style={{
                                   fontSize: "1.2rem",
                                   fontFamily: "Poppins",
                                   marginLeft: "10px",
                                 }}
-                              >
-                                {/* option {index + 1} */}
+                              >                          
                                 {ques.optionType === "txt"
                                   ? op.value
                                   : `option ${index + 1}`}

@@ -4,7 +4,7 @@ import edit from "../../assets/edit.png";
 import del from "../../assets/del.png";
 import share from "../../assets/share.png";
 import axios from "axios";
-import { backendBaseUrl, frontEndBaseUrl } from "../../constants";
+import { backendBaseUrl, frontEndBaseUrl } from "../../config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 function Analytics({
@@ -38,12 +38,12 @@ function Analytics({
       handleQuizId(quizId); // using pre defined state;
     } catch (err) {
       console.log(err);
-      alert("something went wrong in editing");
+     // alert("something went wrong in editing");
     }
   };
   const handleShare = async (quizId) => {
     try {
-      await navigator.clipboard.writeText(`${frontEndBaseUrl}/api/quizz/${quizId}`);
+      await navigator.clipboard.writeText(`${frontEndBaseUrl}/quiz/${quizId}`);
       return toast("Link copied");
     } catch (err) {
       console.log(err);
@@ -62,6 +62,7 @@ function Analytics({
         <div className={styles.data}>
           <div className={styles.info}>
             <table>
+            <tbody>
               <tr>
                 <th>S.No</th>
                 <th>Quiz Name</th>
@@ -113,6 +114,7 @@ function Analytics({
                   </td>
                 </tr>
               ))}
+               </tbody>
             </table>
           </div>
         </div>

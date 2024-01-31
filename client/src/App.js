@@ -10,7 +10,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Auth />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/quiz/:quizId" element={<LiveQuiz />} />
+        <Route path="/quiz/:quizzId" element={<LiveQuiz />} />
         <Route path="/result" element={<Result />} />
         <Route path="/not-found"
           element={
