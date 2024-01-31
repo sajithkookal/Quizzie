@@ -28,7 +28,7 @@ app.use("/api", submitQuizRoute);
 
 //Error handler middleware
 app.use((err, req, res) => {
-    console.error(err.stack);
+    console.error(err);
     res.status(500).json({ error: 'Internal Server Error' })
 });
 
@@ -38,9 +38,8 @@ app.listen(PORT, () => {
     mongoose.connect(process.env.MONGODB_URL)
         .then(() => {
             console.log("Connected to MongoDB")
-                .catch((err) => {
-                    console.log("Not Connected: ", err);
-                })
-        })
+        }).catch(err => {
+            console.error('Failed to connect to MongoDB:', err);
+        });
 });
 
