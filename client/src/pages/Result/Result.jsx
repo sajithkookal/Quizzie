@@ -22,8 +22,7 @@ function Result() {
           <div className={styles.caption}>Congrats Quiz is completed</div>
           <div
             className={styles.imageCont}
-            style={{
-              // border: "1px solid red",
+            style={{         
               width: "fit-content",
               margin: "auto",
             }}

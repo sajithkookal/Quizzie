@@ -3,7 +3,7 @@ const isLoggedIn = require("../middleware/requireAuth");
 const Quiz = require("../models/Quiz");
 const router = express.Router();
 
-// ====================== Create Quizz==============================
+//  Create Quizz
 router.post("/create-quizz", isLoggedIn, async (req, res, next) => {
   try {
     const userId = req.userId;
@@ -20,9 +20,9 @@ router.post("/create-quizz", isLoggedIn, async (req, res, next) => {
     next(err);
   }
 });
-// ===================================================================
 
-// ========================= Delete Quizz ============================
+
+// Delete Quizz
 router.delete("/delete-quizz/:quizId", isLoggedIn, async (req, res, next) => {
   try {
     const radminId = req.userId;
@@ -47,9 +47,9 @@ router.delete("/delete-quizz/:quizId", isLoggedIn, async (req, res, next) => {
     next(err);
   }
 });
-// ===================================================================
 
-// ====================== View Quizz =================================
+
+//  View Quizz 
 router.get("/quizz/:quizId", async (req, res, next) => {
   try {
     const { quizId } = req.params;
@@ -89,8 +89,8 @@ router.get("/quizz/:quizId", async (req, res, next) => {
     next(err);
   }
 });
-// ==================================================================
-// ========================== Update Quizz ==========================
+
+//  Update Quizz 
 router.put("/update-quizz/:quizId", isLoggedIn, async (req, res, next) => {
   try {
     const { quizId } = req.params;
@@ -117,7 +117,7 @@ router.put("/update-quizz/:quizId", isLoggedIn, async (req, res, next) => {
     next(err);
   }
 });
-// =========================== All quizs =================================
+//  All quizs
 router.get("/quizs", isLoggedIn, async (req, res, next) => {
   try {
     
@@ -148,8 +148,8 @@ router.get("/quizs", isLoggedIn, async (req, res, next) => {
     next(err);
   }
 });
-// ===================================================================
-// =======================Fetch for edit =============================
+
+// Fetch for edit 
 router.get("/fetch/:quizId", isLoggedIn, async (req, res, next) => {
   try {
     // console.log("fetch exec");

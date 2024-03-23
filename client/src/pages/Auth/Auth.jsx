@@ -10,6 +10,7 @@ function Auth() {
   const [btnClicked, setBtnClicked] = useState(1);
   const [signup, setSignup] = useState(true);
   const [login, setLogin] = useState(false);
+  const [apiRequested, setApiRequested] = useState(false);
   const navigate = useNavigate();
   const [signupData, setSignUpData] = useState({
     Name: "",
@@ -17,7 +18,7 @@ function Auth() {
     password: "",
     confirmPassword: "",
   });
-
+  
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
@@ -75,7 +76,7 @@ function Auth() {
     return isValid;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
 
     if (signup === true) {
@@ -85,7 +86,7 @@ function Auth() {
       let signupPayload = signupData;
       let syncErrors = errors;
       signupPayload = { name: Name, email, password };
-      console.log(signupPayload);
+   //   console.log(signupPayload);
       if (Name.length < 1) {
         syncErrors = { ...syncErrors, Name: true };
         setErrors((prevData) => ({ ...prevData, Name: true }));
@@ -104,55 +105,46 @@ function Auth() {
         toast("Minimum 6 characters required");
       }
       if (goodToPost(syncErrors)) {
-        try{
+        setApiRequested(true);
+        try {
+          const response = await axios.post(`${backendBaseUrl}/api/signup`, signupPayload);
+          
+              if (response.data.success) {
+                toast("Account Created Successfully");
+
+                setSignUpData((prevData) => clearFormData(prevData));
+                setSignup(false);
+                setLogin(true);
+                setBtnClicked(() => 2);
+              } else {
+                alert(response.data.error);
+              }
+           
+           
+        } catch (error) {
+          setSignUpData((prevData) => clearFormData(prevData));
+         return alert(error.response.data.error);
+        }
+      }
+    } else if (login === true) {
+      setApiRequested(true);
+      try {
         axios
-          .post(`${backendBaseUrl}/api/signup`, signupPayload)
+          .post(`${backendBaseUrl}/api/login`, loginData)
           .then((res) => {
-            if (res.data.success) {
-              toast("Account Created Successfully");
-             
-              setSignUpData((prevData) => clearFormData(prevData));
-              setSignup(false);
-              setLogin(true);
-              setBtnClicked(() => 2);
-            }else{
+
+            if (res.data.status === "OK") {
+              setLoginData(() => clearFormData(loginData));
+              localStorage.setItem("jwToken", res.data.token);
+              navigate("/dashboard");
+            } else {
               alert(res.data.error);
             }
           })
           .catch((err) => {
-            setSignUpData((prevData) => clearFormData(prevData));
-            if (err.response.data.status >= 500) {
-              return alert("User already Exists/ something went wrong");
-            }
+            return alert(err.response.data.error);
           });
-        }catch (error){
-          console.log(error);
-        }
-      }
-    } else if (login === true) {
-       try{     
-      axios
-        .post(`${backendBaseUrl}/api/login`, loginData)
-        .then((res) => {
-        
-          if (res.data.status === "OK") {
-          setLoginData(() => clearFormData(loginData));     
-          localStorage.setItem("jwToken", res.data.token);
-          navigate("/dashboard");
-          }else{
-            alert(res.data.error);
-          }
-        })
-        .catch((err) => {
-          if (err.response.data.status === 404) {
-            return alert("User doesn't exist");
-          } else if (err.response.data.status === 401) {
-            return alert("Incorrect Credentials");
-          } else {
-            return alert("Something went wrong");
-          }
-        });
-      }catch (error){
+      } catch (error) {
         console.log(error);
       }
     }
@@ -160,7 +152,7 @@ function Auth() {
   return (
     <>
       <div className={styles.container}>
-      <ToastContainer />
+        <ToastContainer />
         <div className={styles.title}>QUIZZIE</div>
         <div className={styles.buttonsContainer}>
           <button
@@ -189,6 +181,7 @@ function Auth() {
                     flex: "30%",
                     justifyContent: "flex-end",
                     display: signup ? "" : "none",
+                    fontSize: "1.2rem"
                   }}
                 >
                   Name
@@ -218,6 +211,7 @@ function Auth() {
                   style={{
                     flex: "30%",
                     justifyContent: "flex-end",
+                    fontSize: "1.2rem"
                   }}
                 >
                   Email
@@ -229,10 +223,10 @@ function Auth() {
                   }}
                 >
                   <input
-                  placeholder={errors.email ? "Invalid Email" : ""}
-                  style={{
-                    border: errors.email ? "1px solid red" : "",
-                  }}
+                    placeholder={errors.email ? "Invalid Email" : ""}
+                    style={{
+                      border: errors.email ? "1px solid red" : "",
+                    }}
                     value={signup ? signupData.email : loginData.email}
                     required
                     type="email"
@@ -246,6 +240,7 @@ function Auth() {
                   style={{
                     flex: "30%",
                     justifyContent: "flex-end",
+                    fontSize: "1.2rem"
                   }}
                 >
                   Password
@@ -278,16 +273,18 @@ function Auth() {
               <div>
                 <div
                   style={{
-                    flex: "31%",
-                    justifyContent: "flex-end",
+                    flex: "35%",
+                    justifyContent: "flex-end",             
                     display: signup ? "block" : "none",
+                    fontSize: "1.2rem",
+                    textAlign:"right"
                   }}
                 >
                   Confirm Password
                 </div>
                 <div
                   style={{
-                    flex: "70%",
+                    flex: "80%",
                     justifyContent: "flex-end",
                   }}
                 >
@@ -313,7 +310,7 @@ function Auth() {
               </div>
               <div className={styles.submitBtnContainer}>
                 <button type="submit">
-                  {signup ? "Sign-Up" : "Log In"}            
+                  {signup ? "Sign-Up":  apiRequested ? "Loading..." : "Log In"}
                 </button>
               </div>
             </div>
