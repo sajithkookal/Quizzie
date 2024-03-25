@@ -110,6 +110,7 @@ function Auth() {
           const response = await axios.post(`${backendBaseUrl}/api/signup`, signupPayload);
           
               if (response.data.success) {
+                setApiRequested(false);
                 toast("Account Created Successfully");
 
                 setSignUpData((prevData) => clearFormData(prevData));
@@ -117,11 +118,13 @@ function Auth() {
                 setLogin(true);
                 setBtnClicked(() => 2);
               } else {
+                setApiRequested(false);
                 alert(response.data.error);
               }
            
            
         } catch (error) {
+          setApiRequested(false);
           setSignUpData((prevData) => clearFormData(prevData));
          return alert(error.response.data.error);
         }
@@ -132,7 +135,7 @@ function Auth() {
         axios
           .post(`${backendBaseUrl}/api/login`, loginData)
           .then((res) => {
-
+            setApiRequested(false);
             if (res.data.status === "OK") {
               setLoginData(() => clearFormData(loginData));
               localStorage.setItem("jwToken", res.data.token);
@@ -142,9 +145,11 @@ function Auth() {
             }
           })
           .catch((err) => {
+            setApiRequested(false);
             return alert(err.response.data.error);
           });
       } catch (error) {
+        setApiRequested(false);
         console.log(error);
       }
     }
@@ -310,7 +315,7 @@ function Auth() {
               </div>
               <div className={styles.submitBtnContainer}>
                 <button type="submit">
-                  {signup ? "Sign-Up":  apiRequested ? "Loading..." : "Log In"}
+                  {apiRequested ? "Loading..." : signup ? "Sign-Up": "Log In"}
                 </button>
               </div>
             </div>

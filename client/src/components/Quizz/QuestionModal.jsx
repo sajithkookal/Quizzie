@@ -19,7 +19,7 @@ function QuestionModal({
   const [showQuestionIndex, setShowQuestionIndex] = useState(0);
   const [question, setQuestion] = useState("");
   const [timer, setTimer] = useState(null);
-  const [quizTypeEdit, setQuizTypeEdit] = useState(""); //
+  const [quizTypeEdit, setQuizTypeEdit] = useState("");
   const initailOptArr = [
     { value: "", isAnswer: false, imgUrl: "" },
     { value: "", isAnswer: false, imgUrl: "" },
@@ -46,7 +46,7 @@ function QuestionModal({
           // setQArr(res.data.quizData.quesions);
           setQArr(res.data.quizData[0].questions);
           setTimer(res.data.quizData[0].timer);
-          setQuizTypeEdit(res.data.quizData[0].quizType); //
+          setQuizTypeEdit(res.data.quizData[0].quizType); 
          
         })
         .catch((err) => {
@@ -134,7 +134,7 @@ function QuestionModal({
       })
       .catch((err) => {
         console.log(err);
-        return alert("All Feilds are required in catch");
+        return alert("Internal server error");
       });
   };
   const addQuestion = (index) => {
@@ -151,7 +151,7 @@ function QuestionModal({
       return alert("Fill all Options");
     }
     if (quizType === "qna") {
-      const foundIdx = updated[index].options.findIndex(
+      const foundIdx = updated[index-1].options.findIndex(
         (el) => el.isAnswer === true
       );
       if (foundIdx === -1) {
@@ -439,18 +439,21 @@ function QuestionModal({
             ))}
             <button
               onClick={handleAddOpt}
-              // disabled={optArr.length === 4} make add button disable
+               disabled={qArr[showQuestionIndex].options.length === 4} 
               style={{
                 // opacity: optArr.length === 4 ? "0.5" : "", make opaque
                 color: "#9F9F9F",
                 fontFamily: "Poppins",
-                fontSize: "1.1rem",
+                fontWeight:qArr[showQuestionIndex].options.length === 4 ? "400": "bold",
+                fontSize: "1rem",
                 cursor: "pointer",
-                width: "296px",
+                width: "18vw",
                 border: "none",
-                height: "50px",
+                height: "40px",
                 borderRadius: "10px",
                 background: "#FFF",
+                flex: "20%",
+                marginLeft:"2vw",
                 boxShadow: "0px 0px 25px 0px rgba(0, 0, 0, 0.15)",
               }}
             >

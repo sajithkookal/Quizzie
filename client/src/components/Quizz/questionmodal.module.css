@@ -5,9 +5,9 @@
 }
 .container {
   width: 55%;
-  height: 80%;
+  height: 85%;
   margin: auto;
-  margin-top: 5%;
+  margin-top: 3%;
   background-color: white;
   border-radius: 10px;
   border: 0.1px solid white;
@@ -118,7 +118,7 @@
   height: 15%;
   margin-bottom: 20px;
   display: flex;
-  justify-content: space-between;
+  justify-content: left;
 }
 .values input[type="radio"] {
   accent-color: #60b84b;
@@ -127,7 +127,7 @@
   cursor: pointer;
 }
 .option {
-  width: 60%;
+  width: 15vw;
   height: 100%;
   margin-left: 20px;
   display: inline-block;
@@ -190,17 +190,18 @@
   width: 80%;
   margin: auto;
   margin-top: 7%;
-  height: 8%;
+  margin-bottom: 7%;
+  height: 7%;
   display: flex;
   justify-content: space-between;
 }
 .action button {
-  width: 40%;
+  width: 16vw;
   border-radius: 10px;
   border: none;
   /* color: #474444; */
   font-family: Poppins;
-  font-size: 21px;
+  font-size: 1.1rem;
   font-style: normal;
   font-weight: 600;
   line-height: normal;

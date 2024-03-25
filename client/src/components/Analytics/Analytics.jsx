@@ -17,8 +17,6 @@ function Analytics({
   async function getData() {
     try {
       const jwToken = localStorage.getItem("jwToken");
-      console.log("authorization");
-      console.log(jwToken);
       const headers = {
         "Content-Type": "application/json",
         "Authorization": jwToken,

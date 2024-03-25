@@ -10,8 +10,6 @@ function Overview() {
   async function getData() {
     try {
       const jwToken = localStorage.getItem("jwToken");
-      console.log("authorization");
-      console.log(jwToken);
       const headers = {
         "Content-Type": "application/json",
         "Authorization": jwToken,
@@ -19,8 +17,7 @@ function Overview() {
       const response = await axios.get(`${backendBaseUrl}/api/quizs`, {
         headers: headers,
       });
-      console.log("backendBaseUrl")
-      console.log(response.data.data)
+   
       let impressions = 0;
       let questions = 0;
       // eslint-disable-next-line
