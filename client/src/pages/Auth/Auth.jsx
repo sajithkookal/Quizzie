@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./auth.module.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -18,11 +18,21 @@ function Auth() {
     password: "",
     confirmPassword: "",
   });
-  
+
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
   });
+
+  async function initializeBackendAPI() {
+    const response = await axios.get(`${backendBaseUrl}/`);
+  };
+
+
+  useEffect(() => {
+    initializeBackendAPI();
+  }, []);
+
 
   const [errors, setErrors] = useState({
     Name: false,
@@ -76,7 +86,7 @@ function Auth() {
     return isValid;
   };
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (signup === true) {
@@ -86,7 +96,7 @@ function Auth() {
       let signupPayload = signupData;
       let syncErrors = errors;
       signupPayload = { name: Name, email, password };
-   //   console.log(signupPayload);
+      //   console.log(signupPayload);
       if (Name.length < 1) {
         syncErrors = { ...syncErrors, Name: true };
         setErrors((prevData) => ({ ...prevData, Name: true }));
@@ -108,25 +118,25 @@ function Auth() {
         setApiRequested(true);
         try {
           const response = await axios.post(`${backendBaseUrl}/api/signup`, signupPayload);
-          
-              if (response.data.success) {
-                setApiRequested(false);
-                toast("Account Created Successfully");
 
-                setSignUpData((prevData) => clearFormData(prevData));
-                setSignup(false);
-                setLogin(true);
-                setBtnClicked(() => 2);
-              } else {
-                setApiRequested(false);
-                alert(response.data.error);
-              }
-           
-           
+          if (response.data.success) {
+            setApiRequested(false);
+            toast("Account Created Successfully");
+
+            setSignUpData((prevData) => clearFormData(prevData));
+            setSignup(false);
+            setLogin(true);
+            setBtnClicked(() => 2);
+          } else {
+            setApiRequested(false);
+            alert(response.data.error);
+          }
+
+
         } catch (error) {
           setApiRequested(false);
           setSignUpData((prevData) => clearFormData(prevData));
-         return alert(error.response.data.error);
+          return alert(error.response.data.error);
         }
       }
     } else if (login === true) {
@@ -279,10 +289,10 @@ function Auth() {
                 <div
                   style={{
                     flex: "35%",
-                    justifyContent: "flex-end",             
+                    justifyContent: "flex-end",
                     display: signup ? "block" : "none",
                     fontSize: "1.2rem",
-                    textAlign:"right"
+                    textAlign: "right"
                   }}
                 >
                   Confirm Password
@@ -315,7 +325,7 @@ function Auth() {
               </div>
               <div className={styles.submitBtnContainer}>
                 <button type="submit">
-                  {apiRequested ? "Loading..." : signup ? "Sign-Up": "Log In"}
+                  {apiRequested ? "Loading..." : signup ? "Sign-Up" : "Log In"}
                 </button>
               </div>
             </div>

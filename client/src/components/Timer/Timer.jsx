@@ -18,8 +18,11 @@ function Timer({ nextQuestion, arrlen, handleSubmit, timer, showQuestion }) {
   useEffect(() => {
     if (countdown <= 0) {
       clearInterval(intervalId.current);
+      console.log(`showq ${showQuestion}`)
+      console.log(`arrlen ${arrlen}`)
+      console.log(`isLast ${isLast.current}`)
       nextQuestion();
-      if (showQuestion < arrlen && isLast.current === false) {
+      if (showQuestion < arrlen-1 && isLast.current === false) {
         if (showQuestion === arrlen - 2) {
           isLast.current = true;
         }
