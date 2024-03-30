@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styles from "./auth.module.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -24,14 +24,9 @@ function Auth() {
     password: "",
   });
 
-  async function initializeBackendAPI() {
-    const response = await axios.get(`${backendBaseUrl}/`);
-  };
+  // initialize momgoDB connection
+  const response = axios.get('https://quizzie-d5my.onrender.com/');
 
-
-  useEffect(() => {
-    initializeBackendAPI();
-  }, []);
 
 
   const [errors, setErrors] = useState({
